@@ -107,8 +107,8 @@ async def main():
         print(f'Last fetch: {last_link.publish_date_datetime}')
         post_strs = await asyncio.gather(*(fetch_post_data(client, lnk.link) for lnk in links.__root__))
         for link, post_str in zip(links.__root__, post_strs):
-            post = extract_post_data(link, post_str)
             try:
+                post = extract_post_data(link, post_str)
                 news_dto = NewsDTO(
                     link=link.link,
                     text=post.body,
