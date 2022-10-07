@@ -5,10 +5,11 @@ from pathlib import Path
 from typing import List
 from urllib.parse import urljoin
 
+import backoff
 import pandas as pd
 import pytz
 from bs4 import BeautifulSoup, SoupStrainer
-from httpx import AsyncClient
+from httpx import AsyncClient, HTTPError
 from pydantic import BaseModel
 
 import datetime as dt
@@ -34,7 +35,7 @@ def make_client() -> AsyncClient:
         # }
     )
 
-
+@backoff.on_exception(backoff.expo, (HTTPError,), max_tries=30)
 async def fetch_date(client: AsyncClient, date: dt.date) -> str:
     res = await client.get(f'https://www.business.ru/news/date/{date.strftime("%Y%m%d")}')
     return res.text
@@ -46,6 +47,7 @@ def extract_date_links(data: str) -> List[str]:
     return [urljoin('https://www.business.ru/news/', x['href']) for x in links]
 
 
+@backoff.on_exception(backoff.expo, (HTTPError,), max_tries=30)
 async def fetch_post(client: AsyncClient, link: str):
     res = await client.get(link)
     return res.text
