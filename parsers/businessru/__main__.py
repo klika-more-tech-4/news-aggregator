@@ -60,7 +60,7 @@ def extract_post_data(link: str, post: str) -> NewsDTO:
     for div in container.find_all('div'):
         div.decompose()
     hrefs = [urljoin(link, x['href']) for x in container.find_all('a')]
-    hrefs = [x for x in hrefs if '.' in hrefs]
+    hrefs = [x for x in hrefs if '.' in x]
     date_time = dt.datetime.strptime(soup.find('meta', {'itemprop': 'dateModified'})['content'], '%Y-%m-%d %H:%M:%S')
     return NewsDTO(
         link=link,
