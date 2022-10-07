@@ -88,7 +88,7 @@ def extract_post_data(link: VCLink, data: str) -> VCPost:
         itm.decompose()
     body_str = str(body)
     hrefs = [urljoin(link.link, x['href']) for x in body.findAll('a')]
-    hrefs = [x for x in hrefs if '.' in hrefs]
+    hrefs = [x for x in hrefs if '.' in x]
     return VCPost(
         title=title,
         body=body_str,
