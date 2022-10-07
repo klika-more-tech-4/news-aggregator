@@ -1,3 +1,5 @@
 venv
 .DS_Store
 .idea
+run/
+__pycache__/
