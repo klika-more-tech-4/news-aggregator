@@ -1,0 +1,2 @@
+BATCH_SIZE = 2
+USE_POOLING = False
