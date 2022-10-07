@@ -7,7 +7,7 @@ from typing import Dict, Union
 
 class Clusterer:
     default_parameters = {
-        "eps": 1.,
+        "eps": 0.5,
         "min_samples": 2,
         "threshold": 0.5,
         "branching_factor": 50,
