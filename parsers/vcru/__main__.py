@@ -5,9 +5,11 @@ from pathlib import Path
 from typing import List
 from urllib.parse import urljoin
 
+import backoff
+import httpx
 import pytz
 from bs4 import BeautifulSoup, SoupStrainer
-from httpx import AsyncClient
+from httpx import AsyncClient, HTTPError
 from pydantic import BaseModel
 
 import datetime as dt
@@ -48,6 +50,7 @@ async def fetch_initial_data(client: AsyncClient) -> str:
     return res.text
 
 
+@backoff.on_exception(backoff.expo, (HTTPError,), max_tries=30)
 async def fetch_next_data(client: AsyncClient, link: VCLink, page: int) -> str:
     res = await client.get('https://vc.ru/tag/новости/default/more', params={
         'last_id': link.content_id,
@@ -71,6 +74,7 @@ def extract_links(data: str) -> VCLinkList:
     return VCLinkList(__root__=outs)
 
 
+@backoff.on_exception(backoff.expo, (HTTPError,), max_tries=30)
 async def fetch_post_data(client: AsyncClient, link: str):
     dat = await client.get(link)
     return dat.text
