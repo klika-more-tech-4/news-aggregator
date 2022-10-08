@@ -5,4 +5,7 @@ venv
 run/
 __pycache__/
 .vscode
+db.sqlite
+.ipynb_checkpoints
 *dumps*
+.env
