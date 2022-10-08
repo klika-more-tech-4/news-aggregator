@@ -39,7 +39,7 @@ class NewsAggregator:
         return self._grouping_news(news, embeddings, min_samples_in_group)
 
     def _grouping_news(self, news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
-        data = news.copy()
+        data = news.copy().reset_index(drop=True)
 
         groups_label, central_news_idx = self._match_news(embeddings)
         data["group"] = groups_label
