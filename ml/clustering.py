@@ -1,5 +1,5 @@
 from numpy import ndarray, array, unique, mean
-from sklearn.cluster import DBSCAN, Birch
+from sklearn.cluster import DBSCAN, Birch, AgglomerativeClustering
 
 from copy import deepcopy
 from typing import Dict, Union
@@ -12,7 +12,11 @@ class Clusterer:
         "metric": "cosine",
         "threshold": 0.5,
         "branching_factor": 50,
-        "n_clusters": None
+        "n_clusters": None,
+        "affinity": "euclidean",
+        "compute_full_tree": True,
+        "linkage": "ward",
+        "distance_threshold": 1.
     }
 
     def __init__(self, method: str = "dbscan", parameters: Union[Dict, None] = None):
@@ -26,6 +30,13 @@ class Clusterer:
             self.model = Birch(threshold=self.parameters["threshold"],
                                branching_factor=self.parameters["branching_factor"],
                                n_clusters=self.parameters["n_clusters"])
+        elif method == "agglomerative":
+            self.model = AgglomerativeClustering(n_clusters=self.parameters["n_clusters"],
+                                                 affinity=self.parameters["affinity"],
+                                                 compute_full_tree=self.parameters["compute_full_tree"],
+                                                 linkage=self.parameters["linkage"],
+                                                 distance_threshold=self.parameters["distance_threshold"])
+
         else:
             self.model = DBSCAN(eps=self.parameters["eps"],
                                 min_samples=self.parameters["min_samples"],
