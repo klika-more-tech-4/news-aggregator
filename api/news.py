@@ -8,7 +8,7 @@ from database import NewsModel, engine
 from entities.news import NewsDTO
 
 
-@app.post('/news')
+@app.post("/news")
 def create_news(news: NewsDTO):
     with Session(engine) as session:
         news_model = NewsModel(
@@ -25,7 +25,7 @@ def create_news(news: NewsDTO):
         return news_model
 
 
-@app.get('/news/{news_id}')
+@app.get("/news/{news_id}")
 def get_news(news_id: int = Path(title="Id of the news")):
     with Session(engine) as session:
         q = select(NewsModel).where(NewsModel.id == news_id)
