@@ -1,21 +1,35 @@
 from numpy import ndarray
+from pandas import DataFrame
 from sklearn.neighbors import NearestNeighbors
 
-from config import BATCH_SIZE, USE_POOLING
+from clustering import Clusterer
 
-from typing import List, DefaultDict
-from collections import defaultdict
+from typing import Dict
 
 
-def match_news(news: List[str], vectorizer, clusterer) -> DefaultDict[int, List[str]]:
-    embeddings = vectorizer.vectorize(news, batch_size=BATCH_SIZE, use_pooling=USE_POOLING)
-    labels = clusterer.fit_predict(embeddings)
+def get_digest(news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
+    data = news.copy()
 
-    groups = defaultdict(list)
-    for label, title in zip(labels, news):
-        groups[label].append(title)
+    groups_label, central_news_idx = match_news(embeddings)
+    data["group"] = groups_label
+    data["is_central_news"] = False
+    data.loc[central_news_idx, "is_central_news"] = True
+
+    groups = {}
+    for group_label, group in data.groupby("group"):
+        if len(group) >= min_samples_in_group:
+            groups[group_label] = group
 
     return groups
+
+
+def match_news(embeddings: ndarray) -> [ndarray, ndarray]:
+    clusterer = Clusterer("agglomerative")
+
+    groups_label = clusterer.fit_predict(embeddings)
+    central_news = get_indexes_central_components(embeddings, clusterer.centroids)
+
+    return groups_label, central_news
 
 
 def get_indexes_central_components(embeddings: ndarray, centroids: ndarray) -> ndarray:
