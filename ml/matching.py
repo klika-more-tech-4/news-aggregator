@@ -1,27 +1,33 @@
-from numpy import ndarray, random
-from pandas import DataFrame
+from numpy import ndarray
+from pandas import DataFrame, Series
 from sklearn.neighbors import NearestNeighbors
 
 from .clustering import Clusterer
+from .okved_match.client import OkvedMatcher
 
-from typing import Dict, List
+from typing import Dict, List, Union
 
 
 class NewsAggregator:
     def __init__(self):
         self._clusterer = Clusterer("agglomerative")
-        self._okved_matcher = None
+        self._okved_matcher = OkvedMatcher()
 
     def get_personalized_trends(self, news: DataFrame,
                                 embeddings: ndarray,
                                 min_samples_in_group: int,
                                 user_okveds: List,
                                 min_match_rate: float = 0.5) -> Dict[int, DataFrame]:
+        def _find_intersection(news_okveds: List[str], usr_okveds: List[str]):
+            news_okveds = news_okveds + self._cut_okveds(news_okveds)
+            intersection = set(usr_okveds).intersection(set(news_okveds))
+            return True if len(intersection) > 0 else False
+
         newsgroups = self._grouping_news(news, embeddings, min_samples_in_group)
 
         for group_label in list(newsgroups.keys()):
-            okveds = self._okved_matcher.lookup(newsgroups[group_label]["id"])
-            intersect = okveds["okveds"].apply(lambda s: self._find_intersection(s, user_okveds))
+            okveds = self._okved_matcher.lookup(newsgroups[group_label])
+            intersect = okveds["okveds"].apply(lambda s: _find_intersection(s, user_okveds))
             match_rate = intersect.mean()
 
             if match_rate < min_match_rate:
@@ -62,9 +68,10 @@ class NewsAggregator:
 
         return indexes
 
+    def _cut_okveds(self, all_okveds: List, levels_kept: int = 1) -> List:
+        return [self._cut_okved(okved, part_to=levels_kept) for okved in all_okveds]
+
     @staticmethod
-    def _find_intersection(s, user_okveds):
-        s = set(s)
-        user_okveds = set(user_okveds)
-        intersection = set(s).intersection(set(user_okveds))
-        return True if len(intersection) > 0 else False
+    def _cut_okved(okved_code: Union[str, float], part_to: int, part_from: int = 0) -> str:
+        okved_code_parts = str(okved_code).split(".")
+        return ".".join(okved_code_parts[part_from:part_to])
