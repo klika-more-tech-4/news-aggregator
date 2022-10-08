@@ -2,5 +2,7 @@ venv
 .DS_Store
 *__pycache__*
 .idea
+run/
+__pycache__/
 .vscode
 *dumps*
