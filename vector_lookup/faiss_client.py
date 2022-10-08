@@ -49,6 +49,6 @@ class FaissClient:
         return I, D
 
     def lookup_single(self, vector: np.ndarray, n_neighbours: int) -> List[Tuple[int, float]]:
-        I, D = self.lookup_many(np.expand_dims(vector, 0), n_neighbours + 1)
+        I, D = self.lookup_many(np.expand_dims(vector, 0), n_neighbours)
         I, D = I.squeeze(0), D.squeeze(0)
-        return [x for x in zip(list(I), list(D)) if x[1] != 0]
+        return [x for x in zip(list(I), list(D))]
