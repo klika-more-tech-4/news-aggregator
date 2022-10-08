@@ -86,6 +86,6 @@ if __name__ == '__main__':
         best_okved = [okveds.iloc[x]['Kod'].tolist() for x in best_okved_idx]
         for idx, okv in zip(news_ids, best_okved):
             outputs[idx] = okv
-    outputs = {int(k): v for k, v in outputs.items()}
+    outputs = {int(k): list(set('.'.join(vv.split('.')[:2]) for vv in v)) for k, v in outputs.items()}
     with Path(Path(__file__).parent.parent.parent / 'add_data' / 'news_okved.json').open('w') as f:
         json.dump(outputs, f)
