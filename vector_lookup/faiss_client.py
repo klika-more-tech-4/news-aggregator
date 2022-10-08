@@ -7,11 +7,11 @@ from tqdm.auto import tqdm
 
 
 def get_suggested_nlist(vector_count: int):
-    return round(2 * sqrt(vector_count))
+    return round(sqrt(vector_count))
 
 
 def get_suggested_nprobe(nlist: int):
-    return nlist // 8
+    return nlist // 4
 
 
 class FaissClient:
@@ -44,11 +44,11 @@ class FaissClient:
         index.nprobe = self._nprobe
         self._index = index
 
-    def _lookup_many(self, vectors: np.ndarray, n_neighbours: int) -> Tuple[np.ndarray, np.ndarray]:
+    def lookup_many(self, vectors: np.ndarray, n_neighbours: int) -> Tuple[np.ndarray, np.ndarray]:
         D, I = self._index.search(vectors, n_neighbours)
         return I, D
 
     def lookup_single(self, vector: np.ndarray, n_neighbours: int) -> List[Tuple[int, float]]:
-        I, D = self._lookup_many(np.expand_dims(vector, 0), n_neighbours + 1)
+        I, D = self.lookup_many(np.expand_dims(vector, 0), n_neighbours + 1)
         I, D = I.squeeze(0), D.squeeze(0)
         return [x for x in zip(list(I), list(D)) if x[1] != 0]

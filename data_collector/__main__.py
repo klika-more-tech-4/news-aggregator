@@ -44,6 +44,9 @@ if __name__ == '__main__':
                 else:
                     jsons.append(process_json(dat))
     df = pd.DataFrame(jsons)
-    df.to_json('outputs.jsonl', lines=True, orient='records', force_ascii=False)
+    df['id'] = df.index
+    df['timestamp'] = pd.to_datetime(df['timestamp'].apply(lambda x: max(x, datetime.datetime(1970, 1, 1))))
+    df['timestamp'] = df['timestamp'].apply(lambda x: x.isoformat())
+    df.to_json(Path(__file__).parent.parent / 'add_data' / 'news.jsonl', lines=True, orient='records', force_ascii=False)
 
 
