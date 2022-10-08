@@ -67,7 +67,9 @@ async def callback_save(callback_query: types.CallbackQuery):
         await bot.edit_message_reply_markup(chat_id=user.chat_id, message_id=user.last_message_id)
         await bot.send_message(chat_id=user.chat_id, text=text, reply_markup=keyboard)
     else:
-        keyboard = keyboard.add(types.KeyboardButton("Получить персонализированную подборку"))
+        keyboard = keyboard.add(types.KeyboardButton("Получить персонализированную подборку")).add(
+            types.KeyboardButton("Получить дайджест о контрагентах")
+        )
         text = "Поехали 🚀\nВаши ОКВЭДы:\n" + "\n".join(user.okveds)
         await bot.edit_message_reply_markup(chat_id=user.chat_id, message_id=user.last_message_id)
         await bot.send_message(chat_id=user.chat_id, text=text, reply_markup=keyboard)
@@ -86,3 +88,12 @@ async def digest_handler(message: types.Message):
         await setup_command(message)
         return
     await bot.send_message(chat_id=message.from_id, text=f"Подборка для пользователя {user.id}")
+
+
+@dp.message_handler(lambda message: message.text == "Получить дайджест о контрагентах")
+async def digest_handler(message: types.Message):
+    user = get_user(message.from_user.id)
+    if user.okveds is None or len(user.okveds) == 0:
+        await setup_command(message)
+        return
+    await bot.send_message(chat_id=message.from_id, text=f"Подборка о контрагентах для пользователя {user.id}")
