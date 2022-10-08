@@ -7,7 +7,7 @@ from clustering import Clusterer
 from typing import Dict
 
 
-def get_digest(news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
+def grouping_news(news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
     data = news.copy()
 
     groups_label, central_news_idx = match_news(embeddings)
