@@ -1,0 +1,14 @@
+services:
+  postgresql:
+    image: postgres:alpine
+    environment:
+      POSTGRES_DB: pidoras
+      POSTGRES_USER: pidoras
+      POSTGRES_PASSWORD: pidorasina
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U pidoras" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
