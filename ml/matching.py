@@ -38,8 +38,32 @@ class NewsAggregator:
     def get_trends(self, news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
         return self._grouping_news(news, embeddings, min_samples_in_group)
 
+    @staticmethod
+    def rank_newsgroups(news_group: Dict[int, DataFrame], by: str = "square", top_n: int = 3) -> Dict[int, DataFrame]:
+        """
+        by: one of the ["square", "power"]
+        """
+        assert by in ["square", "power"], "the parameter 'by' must be one of (square, power)"
+        group_metrics = []
+
+        for group_label in news_group:
+            group = news_group[group_label]
+
+            diff_timestamp = group["timestamp"].max() - group["timestamp"].min()
+            len_group = diff_timestamp.days
+            power_group = len(group)
+
+            if by == "square":
+                group_metrics.append((len_group / power_group, group_label, group))
+            else:
+                group_metrics.append((power_group, group_label, group))
+
+        top_news_groups = sorted(group_metrics, key=lambda x: x[0], reverse=True)[:top_n]
+
+        return {group_label: group for _, group_label, group in  top_news_groups}
+
     def _grouping_news(self, news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
-        data = news.copy()
+        data = news.copy().reset_index(drop=True)
 
         groups_label, central_news_idx = self._match_news(embeddings)
         data["group"] = groups_label

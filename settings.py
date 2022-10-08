@@ -18,5 +18,9 @@ class Settings(BaseSettings):
 
     bot_token: str = ""
 
+    telegram_api_id = 0
+    telegram_api_hash = ""
+    telegram_phone_number = "+79123456789"
+
 
 settings = Settings(_env_file=".env", _env_file_encoding="utf-8")
