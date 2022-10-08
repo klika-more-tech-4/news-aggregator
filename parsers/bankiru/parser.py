@@ -54,6 +54,17 @@ def parse_single_news(id: str) -> NewsDTO:
             if a_link.has_attr("href") and "mailto:" not in a_link["href"]:
                 if a_link["href"][0] == "/":
                     links.append("https://www.banki.ru" + a_link["href"])
+                elif "file://" in a_link["href"]:
+                    continue
+                elif len(a_link["href"]) > 2083:
+                    continue
+                elif a_link["href"].isalnum():
+                    continue
+                elif a_link["href"] in [
+                    "«Мир»",
+                    "https://www.banki.ru/hypothec-master/?source=news_text_lenta_ 10968455",
+                ]:
+                    continue
                 else:
                     links.append(a_link["href"])
         text.append(paragraph.text)

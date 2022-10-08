@@ -3,7 +3,7 @@ from torch import sum, clamp, Tensor, device, cuda, no_grad
 from torch.nn.functional import normalize
 from transformers import AutoTokenizer, AutoModel
 
-from dataset import VectorizerDataset
+from .dataset import VectorizerDataset
 
 from typing import List
 

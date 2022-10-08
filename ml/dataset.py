@@ -22,7 +22,7 @@ class VectorizerDataset:
             self.idx = 0
             raise StopIteration
 
-    def get_encoding_text(self, start_idx, stop_idx):
+    def get_encoding_text(self, start_idx: int, stop_idx: int):
         text = self.texts[start_idx: stop_idx]
 
         encoding_text = self.tokenizer(text,

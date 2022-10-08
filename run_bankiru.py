@@ -11,4 +11,4 @@ class TempModel(BaseModel):
 
 
 if __name__ == "__main__":
-    parse_all(datetime(year=2019, month=2, day=5))
+    parse_all(datetime(year=2022, month=6, day=23))
