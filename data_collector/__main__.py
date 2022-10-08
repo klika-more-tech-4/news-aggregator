@@ -44,6 +44,6 @@ if __name__ == '__main__':
                 else:
                     jsons.append(process_json(dat))
     df = pd.DataFrame(jsons)
-    df.to_pickle('outputs.pkl')
+    df.to_json('outputs.jsonl', lines=True, orient='records', force_ascii=False)
 
 
