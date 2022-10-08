@@ -5,3 +5,4 @@ venv
 run/
 __pycache__/
 .vscode
+*dumps*
