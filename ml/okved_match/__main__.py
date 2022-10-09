@@ -61,7 +61,7 @@ def get_okved_data(x: pd.Series):
     return {'code': code, 'name': name}
 
 if __name__ == '__main__':
-    vectorizer = FastTextVectorizer('cc.ru.300.bin')
+    vectorizer = FastTextVectorizer(str(Path(__file__).parent.parent.parent / 'add_data' / 'cc.ru.300.bin'))
 
     okveds = pd.read_csv(Path(__file__).parent.parent.parent / 'add_data' / 'OKVED.csv')
     okved_ids = okveds.index.to_numpy()

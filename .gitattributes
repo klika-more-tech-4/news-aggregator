@@ -7,3 +7,4 @@ add_data/lda_last.txt filter=lfs diff=lfs merge=lfs -text
 add_data/word2vec_moretech.bin filter=lfs diff=lfs merge=lfs -text
 add_data/refers.jsonl filter=lfs diff=lfs merge=lfs -text
 add_data/phrases_model_last.txt filter=lfs diff=lfs merge=lfs -text
+add_data/cc.ru.300.bin filter=lfs diff=lfs merge=lfs -text
