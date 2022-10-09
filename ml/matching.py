@@ -1,3 +1,4 @@
+import line_profiler_pycharm
 from numpy import ndarray
 from pandas import DataFrame, Series
 from sklearn.neighbors import NearestNeighbors
@@ -13,6 +14,7 @@ class NewsAggregator:
         self._clusterer = Clusterer("agglomerative")
         self._okved_matcher = OkvedMatcher()
 
+    @line_profiler_pycharm.profile
     def get_personalized_trends(self, news: DataFrame,
                                 embeddings: ndarray,
                                 min_samples_in_group: int,

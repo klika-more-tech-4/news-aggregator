@@ -1,0 +1,36 @@
+{
+  "booker": {
+    "sources": [
+      "garant",
+      "BANKIRU",
+      "centralbank_russia"
+    ],
+    "add_okveds": [
+      "74.50",
+      "75.23",
+      "91.20",
+      "91.11",
+      "74.84",
+      "75.11"
+    ]
+  },
+  "entrepreneur": {
+    "sources": [
+      "business.ru",
+      "vc.ru",
+      "BANKIRU",
+      "rian_ru",
+      "rbc_news",
+      "paperpaper_ru",
+      "centralbank_russia",
+      "bolshenews",
+      "banksta"
+    ],
+    "add_okveds": [
+      "74.50",
+      "91.11",
+      "91.20",
+      "74.84"
+    ]
+  }
+}

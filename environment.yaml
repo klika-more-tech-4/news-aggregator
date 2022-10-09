@@ -1,5 +1,6 @@
 name: news-aggregator
 channels:
+  - pytorch
   - conda-forge
   - defaults
 dependencies:
