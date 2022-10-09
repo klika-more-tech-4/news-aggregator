@@ -3,6 +3,7 @@
 
 ## Запуск
 Перед клонированием репозитория установите [Git LFS](https://git-lfs.github.com/)! 
+
 Для запуска необходимо установить [Anaconda](https://docs.anaconda.com/anaconda/install/index.html)
 
 ```bash
