@@ -16,7 +16,7 @@ class Clusterer:
         "affinity": "euclidean",
         "compute_full_tree": True,
         "linkage": "ward",
-        "distance_threshold": 1.
+        "distance_threshold": 0.75
     }
 
     def __init__(self, method: str = "dbscan", parameters: Union[Dict, None] = None):

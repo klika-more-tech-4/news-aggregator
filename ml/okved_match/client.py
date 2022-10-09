@@ -11,7 +11,7 @@ class OkvedMatcher:
             self._okveds = {int(k): v for k, v in self._okveds.items()}
 
     def lookup(self, data: pd.DataFrame):
-        dat = data['id'].map(self._okveds)
+        dat = [self._okveds[idx] for idx in data['id']]
         return pd.DataFrame({'id': data['id'], 'okveds': dat})
 
 

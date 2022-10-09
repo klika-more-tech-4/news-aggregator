@@ -1,4 +1,6 @@
 import warnings
+from pathlib import Path
+
 import pymorphy2
 import re
 import nltk
@@ -9,10 +11,10 @@ from typing import List
 from gensim.models import Phrases
 from gensim.corpora import Dictionary
 
-W2V_PATH = 'sources/word2vec_moretech.bin'
-PHRASES_PATH = 'sources/phrases_model_last.txt'
-LDA_PATH = 'sources/lda_last.txt'
-DICTIONARY_PATH = 'sources/dictionary_last.txt'
+W2V_PATH = str(Path(__file__).parent.parent / 'add_data' / 'word2vec_moretech.bin')
+PHRASES_PATH = str(Path(__file__).parent.parent / 'add_data' / 'phrases_model_last.txt')
+LDA_PATH = str(Path(__file__).parent.parent / 'add_data' / 'lda_last.txt')
+DICTIONARY_PATH = str(Path(__file__).parent.parent / 'add_data' / 'dictionary_last.txt')
 
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 warnings.filterwarnings("ignore", category=RuntimeWarning)
