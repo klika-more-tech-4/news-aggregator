@@ -40,7 +40,8 @@ class AggregationMaster:
     def _get_news_for(self, date_at: dt.datetime, user_role: UserRole, filter_type: NewsFilterType,
                       okveds: Optional[List[str]], period: int, return_dig_top: Optional[int]):
         if filter_type != NewsFilterType.all:
-            assert okveds is not None
+            if okveds is None or len(okveds) == 0:
+                raise ValueError('empty okveds')
             okveds = set('.'.join(x.split('.')[:2]) for x in okveds)
             if filter_type == NewsFilterType.my_and_contractor_okveds:
                 for x in okveds.copy():
@@ -55,7 +56,10 @@ class AggregationMaster:
             ].reset_index(drop=True)
         # news['okveds'] = set()
         news_vectors = self._bert.vectorize(news['title'].tolist(), batch_size=32)
-        digest = self._news_aggregator.get_personalized_trends(news, news_vectors, 1, user_okveds=okveds)
+        if filter_type != NewsFilterType.all and len(okveds) > 0 and okveds is not None:
+            digest = self._news_aggregator.get_personalized_trends(news, news_vectors, 1, user_okveds=okveds)
+        else:
+            digest = self._news_aggregator.get_trends(news, news_vectors, 1)
         digest_rank = []
         for k, dig in digest.items():
             date_len = (dig['timestamp'].max() - dig['timestamp'].min()) / np.timedelta64(1, 'D') if len(dig) > 1 else 0
