@@ -62,7 +62,7 @@ class NewsAggregator:
 
         top_news_groups = sorted(group_metrics, key=lambda x: x[0], reverse=True)[:top_n]
 
-        return {group_label: group for _, group_label, group in  top_news_groups}
+        return {group_label: group for _, group_label, group in top_news_groups}
 
     def _grouping_news(self, news: DataFrame, embeddings: ndarray, min_samples_in_group: int) -> Dict[int, DataFrame]:
         data = news.copy().reset_index(drop=True)

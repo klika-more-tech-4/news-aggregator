@@ -11,12 +11,12 @@ class Clusterer:
         "min_samples": 2,
         "metric": "cosine",
         "threshold": 0.5,
-        "branching_factor": 50,
+        "branching_factor": 70,
         "n_clusters": None,
-        "affinity": "euclidean",
+        "affinity": "cosine",
         "compute_full_tree": True,
-        "linkage": "ward",
-        "distance_threshold": 0.75
+        "linkage": "complete",
+        "distance_threshold": 0.2
     }
 
     def __init__(self, method: str = "dbscan", parameters: Union[Dict, None] = None):
