@@ -1,11 +1,12 @@
-# News aggregator
+# News Aggregator
 Решение задачи создания сервиса агрегации новостей от команды "Клика".
 
 ## Запуск
-Для запуска необходим python3.10
+Перед клонированием репозитория установите [Git LFS](https://git-lfs.github.com/)! 
+Для запуска необходимо установить [Anaconda](https://docs.anaconda.com/anaconda/install/index.html)
 
 ```bash
-# Создание виртуального окружения
+# Создание и активация виртуального окружения
 conda env create -f environment.yml
 conda activate news-aggregator
 
