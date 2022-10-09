@@ -43,20 +43,20 @@ def get_news(news_id: int = Path(title="Id of the news")):
 
 @app.post("/api/get_digest")
 def get_digest(dto: InputDTO):
-    aggregation.create_digest(
+    return aggregation.create_digest(
         date_at=dto.date_at, user_role=dto.user_role, filter_type=dto.filter_type, okveds=dto.okveds
     )
 
 
 @app.post("/api/get_trends")
 def get_digest(dto: InputDTO):
-    aggregation.create_trends(
+    return aggregation.create_trends(
         date_at=dto.date_at, user_role=dto.user_role, filter_type=dto.filter_type, okveds=dto.okveds
     )
 
 
 @app.post("/api/get_insights")
 def get_digest(dto: InputDTO):
-    aggregation.create_insights(
+    return aggregation.create_insights(
         date_at=dto.date_at, user_role=dto.user_role, filter_type=dto.filter_type, okveds=dto.okveds
     )
