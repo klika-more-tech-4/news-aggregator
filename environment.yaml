@@ -127,4 +127,3 @@ dependencies:
     - textnorm==1.2
     - uvicorn==0.18.3
     - yarl==1.8.1
-prefix: /home/me/.conda/envs/news-aggregator
